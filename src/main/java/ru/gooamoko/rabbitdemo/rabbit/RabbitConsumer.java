@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class RabbitConsumer {
     private static final Logger log = LoggerFactory.getLogger(RabbitConsumer.class);
 
-    @RabbitListener(queues = "testQueue")
+    @RabbitListener(queues = "${payment.queue}")
     public void processMessage(String message) {
         log.info("Received from rabbit: {}", message);
     }
