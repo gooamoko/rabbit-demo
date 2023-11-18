@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 public class RabbitConsumer {
     private static final Logger log = LoggerFactory.getLogger(RabbitConsumer.class);
 
-    @RabbitListener(queues = "${payment.queue}")
-    public void processMessage(String message) {
-        log.info("Received from rabbit: {}", message);
+    @RabbitListener(queues = "${notifications.sms.queue}")
+    public void processSmsNotification(String message) {
+        log.info("Received sms notification: {}", message);
+    }
+
+    @RabbitListener(queues = "${notifications.email.queue}")
+    public void processEmailNotification(String message) {
+        log.info("Received email notification: {}", message);
     }
 }
