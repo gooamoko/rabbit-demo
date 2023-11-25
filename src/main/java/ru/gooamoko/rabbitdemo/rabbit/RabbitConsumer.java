@@ -11,7 +11,18 @@ public class RabbitConsumer {
 
     @RabbitListener(queues = "${notifications.sms.queue}")
     public void processSmsNotification(String message) {
-        log.info("Received sms notification: {}", message);
+        if (message == null || message.isBlank()) {
+            log.warn("Received blank sms notification");
+            return;
+        }
+
+        String[] parts = message.split("\\|");
+        if (parts.length != 2) {
+            log.warn("Received message with incorrect format: {}", message);
+            return;
+        }
+        // Видимо, сообщение корректное
+        log.info("Received sms notification. Phone: {}, text: {}", parts[0], parts[1]);
     }
 
     @RabbitListener(queues = "${notifications.email.queue}")
